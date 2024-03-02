@@ -10,6 +10,5 @@ public abstract class DependencyRegistration
         builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
         
         builder.Services.AddAutoMapper(typeof(Program));
-
     }
 }
