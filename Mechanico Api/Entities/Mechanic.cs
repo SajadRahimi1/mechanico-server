@@ -13,5 +13,5 @@ public class Mechanic:BaseEntity
     public double? Longitude { get; set; }
     //TODO: Assign Address
     public List<Comments> Comments { get; set; } = new();
-    //TODO: Assign Category
+    public List<Category> Categories { get; set; } = new();
 }
