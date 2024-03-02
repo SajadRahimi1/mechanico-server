@@ -1,6 +1,6 @@
 namespace Mechanico_Api.Entities;
 
-public class Users : BaseEntity
+public class User : BaseEntity
 {
     public String Name { get; set; }
     public String PhoneNumber { get; set; }
