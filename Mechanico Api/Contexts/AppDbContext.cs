@@ -17,6 +17,7 @@ public class AppDbContext:DbContext
         modelBuilder.Entity<Entities.Visited>().HasKey(_ => _.Id);
         modelBuilder.Entity<Entities.Category>().HasKey(_ => _.Id);
         modelBuilder.Entity<Entities.Comment>().HasKey(_ => _.Id);
+        modelBuilder.Entity<Entities.SmsCode>().HasKey(_ => _.Id);
 
         modelBuilder.Entity<Entities.Comment>().HasOne<User>(c => c.User).WithMany(u => u.Comments)
             .HasForeignKey(c => c.UserId);
@@ -54,4 +55,5 @@ public class AppDbContext:DbContext
     public DbSet<Comment> Comments { get; }
     public DbSet<Visited> Visiteds { get; }
     public DbSet<Category> Categories { get; }
+    public DbSet<SmsCode> SmsCodes { get; }
 }
