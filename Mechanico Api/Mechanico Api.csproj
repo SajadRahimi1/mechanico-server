@@ -4,9 +4,8 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <InvariantGlobalization>true</InvariantGlobalization>
-        <RootNamespace>Mechanico_Api</RootNamespace>
-        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <InvariantGlobalization>false</InvariantGlobalization>
+        <RootNamespace>Mechanico_Api</RootNamespace>        
     </PropertyGroup>
 
     <ItemGroup>

@@ -10,6 +10,5 @@ services:
       - /var/opt/mechanico_db/log:/var/opt/mssql/log
     
     environment:
-      MSSQL_SA_PASSWORD: "xSKpzU&7M$z3f&"
+      MSSQL_SA_PASSWORD: "EyenkxuX7ENMQ"
       ACCEPT_EULA: "Y"
-      
