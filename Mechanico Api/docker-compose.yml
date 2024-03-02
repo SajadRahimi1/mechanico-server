@@ -1,0 +1,15 @@
+version: '3.3'
+services:
+  db:
+    image: "mcr.microsoft.com/mssql/server"
+    user: root
+    ports:
+      - "1433:1433"
+    volumes:
+      - /var/opt/mechanico_db/db:/var/opt/mssql/data
+      - /var/opt/mechanico_db/log:/var/opt/mssql/log
+    
+    environment:
+      MSSQL_SA_PASSWORD: "xSKpzU&7M$z3f&"
+      ACCEPT_EULA: "Y"
+      
