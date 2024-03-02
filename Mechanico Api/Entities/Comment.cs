@@ -1,6 +1,6 @@
 namespace Mechanico_Api.Entities;
 
-public class Comments : BaseEntity
+public class Comment : BaseEntity
 {
     public string? Content { get; set; }
     public User User { get; set; }

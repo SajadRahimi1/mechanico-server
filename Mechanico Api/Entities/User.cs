@@ -7,5 +7,6 @@ public class User : BaseEntity
     public string? Email { get; set; }
     public string? ImageUrl { get; set; }
     public bool IsMale { get; set; }
-    public List<Comments> Comments { get; set; } = new();
+    public List<Comment> Comments { get; set; } = new();
+    public List<Visited> Visiteds { get; set; } = new();
 }
