@@ -50,10 +50,10 @@ public class AppDbContext:DbContext
         return base.SaveChanges();
     }
 
-    public DbSet<User> Users { get; }
-    public DbSet<Mechanic> Mechanics { get; }
-    public DbSet<Comment> Comments { get; }
-    public DbSet<Visited> Visiteds { get; }
-    public DbSet<Category> Categories { get; }
+    public virtual DbSet<User> Users { get; }
+    public virtual DbSet<Mechanic> Mechanics { get; }
+    public virtual DbSet<Comment> Comments { get; }
+    public virtual DbSet<Visited> Visiteds { get; }
+    public virtual DbSet<Category> Categories { get; }
     public virtual DbSet<SmsCode> SmsCodes { get; }
 }

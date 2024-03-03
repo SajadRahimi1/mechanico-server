@@ -19,16 +19,15 @@ public class UserRepository:IUserRepository
     public async Task<ActionResult> SendCode(string phoneNumber)
     {
         var user = GetUserByPhoneNumber(phoneNumber);
-        if (user is null)
-        {
-            var createdUser = await  _appDbContext.Users.AddAsync(new User { PhoneNumber = phoneNumber });
-            user = createdUser.Entity;
-        }
+        if (user is not null) return await _smsCodeRepository.SendCode(user.Id);
+        
+        var createdUser = await  _appDbContext.Users.AddAsync(new User { PhoneNumber = phoneNumber });
+        user = createdUser.Entity;
 
         return await _smsCodeRepository.SendCode(user.Id);
     }
 
-    private User? GetUserByPhoneNumber(string phoneNumber)
+    public User? GetUserByPhoneNumber(string phoneNumber)
     {
         return  _appDbContext.Users.SingleOrDefault(u => u.PhoneNumber == phoneNumber);
     }
