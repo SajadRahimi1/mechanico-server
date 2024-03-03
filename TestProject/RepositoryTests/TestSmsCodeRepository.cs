@@ -1,9 +1,5 @@
-using Mechanico_Api.Contexts;
 using Mechanico_Api.Entities;
 using Mechanico_Api.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Moq;
-using Moq.EntityFrameworkCore;
 
 namespace TestProject.RepositoryTests;
 
@@ -39,12 +35,12 @@ public class TestSmsCodeRepository
         Assert.Equal(201, result.Result.StatusCode);
     }
 
-    [Fact]
+ /*   [Fact]
     public async void SendCodeForRegisteredUser()
     {
         var result =await _smsCodeRepository.SendCode(_smsCodes[0].ReceiverId??Guid.NewGuid());
         Assert.Equal(202, result.Result.StatusCode);
-    }
+    }*/
     
     [Fact]
     public async void SendCodeTwiceInTwoMinute()

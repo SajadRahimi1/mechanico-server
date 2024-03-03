@@ -8,11 +8,11 @@ namespace TestProject;
 
 public class MockAppDbContext
 {
-    public AppDbContext AppDbContext;
+    public readonly AppDbContext AppDbContext;
 
     public MockAppDbContext()
     {
-        var dataHelper = new DataHelper();
+        var dataHelper =  DataHelper.Instance;
         
         var appDbContextMock = new Mock<AppDbContext>(new DbContextOptionsBuilder().UseSqlServer().Options);
         appDbContextMock.Setup( a => a.Users).ReturnsDbSet(dataHelper.GetUsers());

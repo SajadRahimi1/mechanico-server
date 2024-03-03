@@ -1,6 +1,7 @@
 using Mechanico_Api.Contexts;
 using Mechanico_Api.Entities;
 using Mechanico_Api.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Mechanico_Api.Repositories;
 
@@ -25,6 +26,20 @@ public class UserRepository:IUserRepository
         user = createdUser.Entity;
 
         return await _smsCodeRepository.SendCode(user.Id);
+    }
+
+    public async Task<ActionResult> CheckCode(string phoneNumber, string code)
+    {
+        var user = GetUserByPhoneNumber(phoneNumber);
+        if (user is null)
+            return new ActionResult(new Result { StatusCode = 404, Message = "کاربری با این شماره یافت نشد" });
+        var isCodeValid = await _smsCodeRepository.CheckCode(user.Id, code);
+        return new ActionResult(new Result{StatusCode = isCodeValid?200:403,Message = isCodeValid? "کد وارد شده درست است": "کد وارد شده درست نیست"});
+    }
+
+    public Task<User?> GetUserById(Guid userId)
+    {
+        return _appDbContext.Users.SingleOrDefaultAsync(u => u.Id == userId);
     }
 
     public User? GetUserByPhoneNumber(string phoneNumber)

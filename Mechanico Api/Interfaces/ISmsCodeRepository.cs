@@ -8,4 +8,6 @@ public interface ISmsCodeRepository
     public SmsCode? GetSmsByReceiverId(Guid receiverId);
 
     public Task<ActionResult> SendCode(Guid receiverId);
+
+    public Task<bool> CheckCode(Guid receiverId,string code);
 }

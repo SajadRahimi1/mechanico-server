@@ -14,7 +14,7 @@ public class UserController : ControllerBase
         _userRepository = userRepository;
     }
 
-    [HttpGet]
+    [HttpGet,Route("/send-code")]
     public async Task<ActionResult> SendCode(string phoneNumber)
     {
         return await _userRepository.SendCode(phoneNumber);

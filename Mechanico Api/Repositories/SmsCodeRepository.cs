@@ -46,4 +46,16 @@ public class SmsCodeRepository : ISmsCodeRepository
             return new ActionResult(new Result { Message = "کد با موفقیت ارسال شد", StatusCode = 202 });
         }
     }
+
+    public async Task<bool> CheckCode(Guid receiverId,string code)
+    {
+        var smsCode = GetSmsByReceiverId(receiverId);
+        if (smsCode is null) return false;
+        var isCodeValid = string.Equals(smsCode?.Code, code);
+        if (!isCodeValid) return false;
+        _appDbContext.SmsCodes.Remove(smsCode);
+        await _appDbContext.SaveChangesAsync();
+        return true;
+
+    }
 }
