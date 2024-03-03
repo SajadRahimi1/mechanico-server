@@ -55,5 +55,5 @@ public class AppDbContext:DbContext
     public DbSet<Comment> Comments { get; }
     public DbSet<Visited> Visiteds { get; }
     public DbSet<Category> Categories { get; }
-    public DbSet<SmsCode> SmsCodes { get; }
+    public virtual DbSet<SmsCode> SmsCodes { get; }
 }
