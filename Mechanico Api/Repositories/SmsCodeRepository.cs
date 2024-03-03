@@ -25,13 +25,13 @@ public class SmsCodeRepository:ISmsCodeRepository
         if (smsCode is null)
         {
             string code = new Random().Next(1000, 9999).ToString();
-            var newSmsCode =await _appDbContext.SmsCodes.AddAsync(new SmsCode { ReceiverId = receiverId,Code=code });
+            var newSmsCode =await _appDbContext.SmsCodes.AddAsync(new SmsCode { ReceiverId = receiverId,Code=code});
             //TODO: call api for send sms 
             return new ActionResult(new Result { Message = "کد با موفقیت ارسال شد", StatusCode = 201});
         }
         else
         {
-            if (DateTime.Now.Subtract(smsCode.UpdatedAt).Minutes > 2)
+            if (DateTime.Now.Subtract(smsCode.UpdatedAt).Minutes < 2)
             {
                 return new ActionResult(new Result { Message = "کد با موفقیت ارسال شد",StatusCode = 200});
             }
@@ -45,4 +45,6 @@ public class SmsCodeRepository:ISmsCodeRepository
 
         }
     }
+
+   
 }
