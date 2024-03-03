@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mechanico Api", "Mechanico Api\Mechanico Api.csproj", "{6737396F-A2C2-4B21-9367-A98D7BA89A9C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{6143DA4B-7F34-4D6C-A4BF-9103781D0F4D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{6737396F-A2C2-4B21-9367-A98D7BA89A9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6737396F-A2C2-4B21-9367-A98D7BA89A9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6737396F-A2C2-4B21-9367-A98D7BA89A9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6143DA4B-7F34-4D6C-A4BF-9103781D0F4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6143DA4B-7F34-4D6C-A4BF-9103781D0F4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6143DA4B-7F34-4D6C-A4BF-9103781D0F4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6143DA4B-7F34-4D6C-A4BF-9103781D0F4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
