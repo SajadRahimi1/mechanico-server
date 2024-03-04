@@ -1,3 +1,4 @@
+using Mechanico_Api.Dtos;
 using Mechanico_Api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,10 +15,10 @@ public class UserController : ControllerBase
         _userRepository = userRepository;
     }
 
-    [HttpPost,Route("send")]
-    public async Task<IActionResult> SendCode([FromBody] string phoneNumber)
+    [HttpPost,Route("send-code")]
+    public async Task<IActionResult> SendCode([FromBody] SendCodeDto sendCodeDto)
     {
-        return await _userRepository.SendCode(phoneNumber);
+        return await _userRepository.SendCode(sendCodeDto.phoneNumber);
     }
 
     [HttpGet]

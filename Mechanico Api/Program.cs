@@ -9,9 +9,6 @@ builder.Services.AddSwaggerGen();
 
 DependencyRegistration.RegisterDependencies(builder);
 
-var connectionString = builder.Configuration.GetConnectionString("mssqlConnection");
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
