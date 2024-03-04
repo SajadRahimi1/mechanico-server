@@ -15,5 +15,7 @@ public abstract class DependencyRegistration
 
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<ISmsCodeRepository, SmsCodeRepository>();
+
+        builder.Services.AddControllers();
     }
 }
