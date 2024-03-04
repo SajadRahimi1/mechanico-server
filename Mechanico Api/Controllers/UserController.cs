@@ -1,10 +1,10 @@
 using Mechanico_Api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using ActionResult = Mechanico_Api.Contexts.ActionResult;
 
 namespace Mechanico_Api.Controllers;
 
-[ApiController(), Route("[controller]")]
+[ApiController()]
+[Route("[controller]")]
 public class UserController : ControllerBase
 {
     private readonly IUserRepository _userRepository;
@@ -14,9 +14,15 @@ public class UserController : ControllerBase
         _userRepository = userRepository;
     }
 
-    [HttpGet,Route("/send-code")]
-    public async Task<ActionResult> SendCode([FromQuery] string phoneNumber)
+    [HttpPost,Route("send")]
+    public async Task<IActionResult> SendCode([FromBody] string phoneNumber)
     {
         return await _userRepository.SendCode(phoneNumber);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        return await _userRepository.GetAll();
     }
 }

@@ -1,7 +1,9 @@
 using Mechanico_Api.Contexts;
 using Mechanico_Api.Entities;
 using Mechanico_Api.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ActionResult = Mechanico_Api.Contexts.ActionResult;
 
 namespace Mechanico_Api.Repositories;
 
@@ -40,6 +42,12 @@ public class UserRepository:IUserRepository
     public Task<User?> GetUserById(Guid userId)
     {
         return _appDbContext.Users.SingleOrDefaultAsync(u => u.Id == userId);
+    }
+
+    public async Task<ActionResult> GetAll()
+    {
+        var users= await _appDbContext.Users.ToListAsync();
+        return new ActionResult(new Result { Data = users });
     }
 
     public User? GetUserByPhoneNumber(string phoneNumber)
