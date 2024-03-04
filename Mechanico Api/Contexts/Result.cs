@@ -26,5 +26,7 @@ public class Result
 
     public string? Token { get; set; }
 
+    public List<string?>? Errors { get; set; } = new List<string>();
+
     public string? Message { get; set; }
 }
