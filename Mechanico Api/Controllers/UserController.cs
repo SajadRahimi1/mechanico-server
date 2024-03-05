@@ -16,13 +16,13 @@ public class UserController : ControllerBase
     }
 
     [HttpPost,Route("send-code")]
-    public async Task<IActionResult> SendCode([FromBody] SendCodeDto sendCodeDto)
+    public async Task<Contexts.ActionResult> SendCode([FromBody] SendCodeDto sendCodeDto)
     {
         return await _userRepository.SendCode(sendCodeDto.phoneNumber);
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<Contexts.ActionResult> GetAll()
     {
         return await _userRepository.GetAll();
     }
