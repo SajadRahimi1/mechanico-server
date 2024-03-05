@@ -22,4 +22,13 @@ public class TestUsersApi
         
         Assert.Equal(HttpStatusCode.BadRequest,result.StatusCode);
     }
+    
+    [Fact]
+    public async void TestSendCodeForSavedUser()
+    {
+        var sendCodeDto = new SendCodeDto { phoneNumber = "09214961842" };
+        var result = await _httpClient.PostAsync("User/send-code", new StringContent(JsonConvert.SerializeObject(sendCodeDto),Encoding.UTF8,"application/json"));
+        
+        Assert.NotEqual(HttpStatusCode.Created,result.StatusCode);
+    }
 }

@@ -27,6 +27,7 @@ public class SmsCodeRepository : ISmsCodeRepository
             string code = new Random().Next(1000, 9999).ToString();
             var newSmsCode =
                 await _appDbContext.SmsCodes.AddAsync(new SmsCode { ReceiverId = receiverId, Code = code });
+            await _appDbContext.SaveChangesAsync();
             //TODO: call api for send sms 
             return new ActionResult(new Result { Message = "کد با موفقیت ارسال شد", StatusCode = 201 });
         }

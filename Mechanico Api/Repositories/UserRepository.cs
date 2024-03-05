@@ -26,6 +26,7 @@ public class UserRepository:IUserRepository
         
         var createdUser = await  _appDbContext.Users.AddAsync(new User { PhoneNumber = phoneNumber });
         user = createdUser.Entity;
+        await _appDbContext.SaveChangesAsync();
 
         return await _smsCodeRepository.SendCode(user.Id);
     }
