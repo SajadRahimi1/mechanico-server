@@ -1,9 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Mechanico_Api.Entities;
 
 public abstract class BaseEntity
 {
-    public Guid Id { set;get; }=Guid.NewGuid();
-    public DateTime CreatedAt { get; }=DateTime.Now;
-    public DateTime UpdatedAt { get; } = DateTime.Now;
-
+    [Key]
+    public Guid Id { get; init; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
 }

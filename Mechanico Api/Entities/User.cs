@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace Mechanico_Api.Entities;
 
 public class User : BaseEntity
@@ -9,4 +11,5 @@ public class User : BaseEntity
     public bool IsMale { get; set; }
     public List<Comment> Comments { get; set; } = new();
     public List<Visited> Visiteds { get; set; } = new();
+
 }

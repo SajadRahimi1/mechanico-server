@@ -24,7 +24,7 @@ public class SmsCodeRepository : ISmsCodeRepository
         var smsCode = GetSmsByReceiverId(receiverId);
         if (smsCode is null)
         {
-            string code = new Random().Next(1000, 9999).ToString();
+            var code = new Random().Next(1000, 9999).ToString();
             var newSmsCode =
                 await _appDbContext.SmsCodes.AddAsync(new SmsCode { ReceiverId = receiverId, Code = code });
             await _appDbContext.SaveChangesAsync();
@@ -33,9 +33,9 @@ public class SmsCodeRepository : ISmsCodeRepository
         }
         else
         {
-            if (DateTime.Now.Subtract(smsCode.UpdatedAt).Minutes < 2)
+            if (DateTime.Now.Subtract(smsCode.UpdatedAt.ToLocalTime()).TotalMinutes < 2)
             {
-                return new ActionResult(new Result { Message = "کد با موفقیت ارسال شد", StatusCode = 200 });
+                return new ActionResult(new Result { Message = "کد با موفقیت ارسال شد", StatusCode = 200,});
             }
 
             var code = new Random().Next(1000, 9999).ToString();
