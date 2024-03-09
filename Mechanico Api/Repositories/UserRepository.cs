@@ -61,8 +61,23 @@ public class UserRepository : IUserRepository
         return new ActionResult(new Result { Data = users });
     }
 
+    public async Task<User?> UpdateUser(User user)
+    {
+        var selectUser = await GetUserById(user.Id);
+        if (selectUser is null)
+        {
+            return null;
+        }
+        var updatedUser=  _appDbContext.Users.Update(user);
+        _appDbContext.ChangeTracker.Clear();
+        await _appDbContext.SaveChangesAsync();
+        return updatedUser.Entity;
+    }
+
     public User? GetUserByPhoneNumber(string phoneNumber)
     {
         return _appDbContext.Users.SingleOrDefault(u => u.PhoneNumber == phoneNumber);
     }
+    
+    
 }

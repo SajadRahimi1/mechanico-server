@@ -1,7 +1,11 @@
 using System.Security.Claims;
+using AutoMapper;
+using Courseproject.Common.Interfaces;
 using Mechanico_Api.Contexts;
 using Mechanico_Api.Dtos;
+using Mechanico_Api.Entities;
 using Mechanico_Api.Interfaces;
+using Mechanico_Api.Models;
 using Mechanico_Api.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +18,16 @@ public class UserController : ControllerBase
 {
     private readonly IUserRepository _userRepository;
     private readonly IJwtRepository _jwtRepository;
+    private readonly IFileRepository _fileRepository;
+    private readonly IMapper _mapper;
 
-
-    public UserController(IUserRepository userRepository, IJwtRepository jwtRepository)
+    public UserController(IUserRepository userRepository, IJwtRepository jwtRepository, IFileRepository fileRepository,
+        IMapper mapper)
     {
         _userRepository = userRepository;
         _jwtRepository = jwtRepository;
+        _fileRepository = fileRepository;
+        _mapper = mapper;
     }
 
     [HttpPost, Route("send-code")]
@@ -38,16 +46,24 @@ public class UserController : ControllerBase
     public async Task<Contexts.ActionResult> ValidateSmsCode([FromBody] ValidateCodeDto validateCodeDto) =>
         await _userRepository.CheckCode(validateCodeDto.phoneNumber, validateCodeDto.code);
 
-    [HttpPost, Authorize(Roles = "User")]
-    public Contexts.ActionResult AuthorizeUser()
+    // [HttpPost, Authorize(Roles = "User")]
+    private JwtModel? AuthorizeUser()
     {
-        var identity = HttpContext.User.Identity as ClaimsIdentity;
-        if (identity is null)
+        return HttpContext.User.Identity is not ClaimsIdentity identity ? null : _jwtRepository.Authorize(identity);
+    }
+
+    [HttpPost, Authorize(Roles = "User")]
+    public async Task<Contexts.ActionResult> UpdateUser([FromForm] UpdateUserDto updateUserDto)
+    {
+        var user = _mapper.Map<User>(updateUserDto);
+        if (updateUserDto.Image is not null)
         {
-            return new Contexts.ActionResult(new Result { StatusCode = 403 });
+            user.ImageUrl = await _fileRepository.SaveFileAsync(updateUserDto.Image);
+            var jwtModel = AuthorizeUser();
+            user.Id = Guid.Parse(jwtModel.Id);
         }
 
-        var jwtModel = _jwtRepository.Authorize(identity);
-        return new Contexts.ActionResult(new Result { Data = jwtModel });
+        user = await _userRepository.UpdateUser(user);
+        return new Contexts.ActionResult(new Result { Data = user });
     }
 }

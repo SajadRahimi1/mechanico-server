@@ -1,3 +1,4 @@
+using Mechanico_Api.Dtos;
 using Mechanico_Api.Entities;
 using ActionResult = Mechanico_Api.Contexts.ActionResult;
 
@@ -10,4 +11,7 @@ public interface IUserRepository
     public Task<User?> GetUserById(Guid userId);
 
     public Task<ActionResult> GetAll();
+
+    public Task<User?> UpdateUser(User user);
+
 }

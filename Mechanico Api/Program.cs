@@ -17,7 +17,7 @@ builder.Services.AddSwaggerGen(options =>
         Scheme = "Bearer",
         BearerFormat = "JWT"
     });
-    // options.UseInlineDefinitionsForEnums();
+    
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
@@ -26,11 +26,15 @@ builder.Services.AddSwaggerGen(options =>
             {
                 Reference = new OpenApiReference
                 {
-                    Type=ReferenceType.SecurityScheme,
-                    Id="Bearer"
-                }
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                },
+                Scheme = "oauth2",
+                Name = "Bearer",
+                In = ParameterLocation.Header,
+
             },
-            new string[]{}
+            new List<string>()
         }
     });
 });
