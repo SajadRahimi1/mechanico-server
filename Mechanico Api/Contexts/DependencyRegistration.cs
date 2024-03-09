@@ -16,7 +16,7 @@ public abstract class DependencyRegistration
         var connectionString = builder.Configuration.GetConnectionString("mssqlConnection");
         builder.Services.AddDbContext<AppDbContext>(options =>
         {
-            options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            // options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             options.UseSqlServer(connectionString);
         });
 

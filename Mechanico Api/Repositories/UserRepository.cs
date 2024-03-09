@@ -2,7 +2,6 @@ using Mechanico_Api.Contexts;
 using Mechanico_Api.Entities;
 using Mechanico_Api.Interfaces;
 using Mechanico_Api.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ActionResult = Mechanico_Api.Contexts.ActionResult;
 
@@ -53,11 +52,12 @@ public class UserRepository : IUserRepository
     public Task<User?> GetUserById(Guid userId)
     {
         return _appDbContext.Users.SingleOrDefaultAsync(u => u.Id == userId);
+        
     }
 
     public async Task<ActionResult> GetAll()
     {
-        var users = await _appDbContext.Users.ToListAsync();
+        var users = await _appDbContext.Users.AsNoTracking().ToListAsync();
         return new ActionResult(new Result { Data = users });
     }
 
@@ -68,11 +68,20 @@ public class UserRepository : IUserRepository
         {
             return null;
         }
-        var updatedUser=  _appDbContext.Users.Update(user);
         _appDbContext.ChangeTracker.Clear();
+        _appDbContext.Entry(selectUser).State = EntityState.Detached;
+
+        // Update only the non-null properties of the user entity
+        _appDbContext.Entry(selectUser).CurrentValues.SetValues(user);
+        
+        _appDbContext.Entry(selectUser).State = EntityState.Modified;
+
+
+        // Save changes to the database
         await _appDbContext.SaveChangesAsync();
-        return updatedUser.Entity;
+        return user;
     }
+    
 
     public User? GetUserByPhoneNumber(string phoneNumber)
     {
