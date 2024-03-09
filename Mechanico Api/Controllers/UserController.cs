@@ -53,14 +53,15 @@ public class UserController : ControllerBase
     }
 
     [HttpPost, Authorize(Roles = "User")]
+    [Route("update"), Consumes("multipart/form-data")]
     public async Task<Contexts.ActionResult> UpdateUser([FromForm] UpdateUserDto updateUserDto)
     {
         var user = _mapper.Map<User>(updateUserDto);
+        var jwtModel = AuthorizeUser();
+        user.Id = Guid.Parse(jwtModel.Id);
         if (updateUserDto.Image is not null)
         {
             user.ImageUrl = await _fileRepository.SaveFileAsync(updateUserDto.Image);
-            var jwtModel = AuthorizeUser();
-            user.Id = Guid.Parse(jwtModel.Id);
         }
 
         user = await _userRepository.UpdateUser(user);

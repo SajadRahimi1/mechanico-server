@@ -27,9 +27,22 @@ public class FileRepository : IFileRepository
 
     public async Task<string> SaveFileAsync(IFormFile file)
     {
-        var uniqueFilename = file.FileName.Split('.').First() + "_" + Guid.NewGuid().ToString() + "." + file.FileName.Split('.').Last();
+        var extension = file.FileName.Split('.').Last();
+        var uniqueFilename = getPath(extension) + "/" + file.FileName.Split('.').First() + "_" +
+                             Guid.NewGuid().ToString() + "." + file.FileName.Split('.').Last();
         var path = Path.Combine(UPLOAD_DIRECTORY, uniqueFilename);
         await file.CopyToAsync(new FileStream(path, FileMode.Create));
         return uniqueFilename;
+    }
+
+    private string getPath(string extension)
+    {
+        switch (extension)
+        {
+            case "png" or "jpg" or "jpeg":
+                return "images";
+            default:
+                return "files";
+        }
     }
 }

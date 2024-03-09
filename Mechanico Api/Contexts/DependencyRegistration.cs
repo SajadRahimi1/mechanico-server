@@ -1,4 +1,6 @@
 using System.Text;
+using Courseproject.Common.Interfaces;
+using Courseproject.Infrastructure;
 using Mechanico_Api.Interfaces;
 using Mechanico_Api.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,12 +14,17 @@ public abstract class DependencyRegistration
     public static void RegisterDependencies(WebApplicationBuilder builder)
     {
         var connectionString = builder.Configuration.GetConnectionString("mssqlConnection");
-        builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+        builder.Services.AddDbContext<AppDbContext>(options =>
+        {
+            options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            options.UseSqlServer(connectionString);
+        });
 
         builder.Services.AddAutoMapper(typeof(Program));
 
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IJwtRepository, JwtRepository>();
+        builder.Services.AddScoped<IFileRepository, FileRepository>();
         
         builder.Services.AddScoped<ISmsCodeRepository, SmsCodeRepository>();
 
