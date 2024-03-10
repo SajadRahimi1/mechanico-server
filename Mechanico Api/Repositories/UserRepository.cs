@@ -81,7 +81,21 @@ public class UserRepository : IUserRepository
         await _appDbContext.SaveChangesAsync();
         return user;
     }
-    
+
+    public async Task<ActionResult> GetUserVisited(string userId)
+    {
+        var user = await _appDbContext.Users.Include(u => u.Visiteds)
+            .SingleOrDefaultAsync(u => u.Id.ToString() == userId);
+        return new ActionResult(new Result { Data = user });
+    }
+
+    public async Task<ActionResult> GetUserCommented(string userId)
+    {
+        var user = await _appDbContext.Users.Include(u => u.Comments)
+            .SingleOrDefaultAsync(u => u.Id.ToString() == userId);
+        return new ActionResult(new Result { Data = user });
+    }
+
 
     public User? GetUserByPhoneNumber(string phoneNumber)
     {

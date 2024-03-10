@@ -14,4 +14,8 @@ public interface IUserRepository
 
     public Task<User?> UpdateUser(User user);
 
+    public Task<ActionResult> GetUserVisited(string userId);
+    
+    public Task<ActionResult> GetUserCommented(string userId);
+
 }
