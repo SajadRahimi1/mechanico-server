@@ -4,7 +4,9 @@ namespace Mechanico_Api.Dtos;
 
 public sealed class ValidateCodeDto
 {
-    [Required()] public string code { get; set; }
+    [Required(ErrorMessage = "لطفا کد را وارد کنید")]
+    public string code { get; set; }
 
-    [Required()] public string phoneNumber { get; set; }
+    [Required(ErrorMessage = "لطفا شماره تلفن را وارد کنید")]
+    public string phoneNumber { get; set; }
 }

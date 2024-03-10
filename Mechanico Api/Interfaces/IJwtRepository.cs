@@ -5,6 +5,6 @@ namespace Mechanico_Api.Interfaces;
 
 public interface IJwtRepository
 {
-    public string generateUserJwt(JwtModel jwtModel);
+    public string GenerateUserJwt(JwtModel jwtModel);
     public JwtModel Authorize(ClaimsIdentity claimsIdentity);
 }

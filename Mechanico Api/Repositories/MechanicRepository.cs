@@ -75,6 +75,18 @@ public class MechanicRepository : IMechanicRepository
         return await _smsCodeRepository.SendCode(mechanic.Id);
     }
 
+    public async Task<ActionResult> UpdateMechanic(Mechanic mechanic)
+    {
+        var oldMechanic = await GetMechanicById(mechanic.Id);
+        if (oldMechanic is null)
+            return new ActionResult(new Result { StatusCode = 401, Message = "توکن شما اشتباه است" });
+        mechanic.PhoneNumber = oldMechanic.PhoneNumber;
+        
+        var updatedMechanic = _appDbContext.Mechanics.Update(mechanic);
+        await _appDbContext.SaveChangesAsync();
+        return new ActionResult(new Result { Data = updatedMechanic.Entity });
+    }
+
     public async Task<ActionResult> CheckCode(string phoneNumber, string code)
     {
         var mechanic = await GetMechanicByPhoneNumber(phoneNumber);
@@ -88,7 +100,7 @@ public class MechanicRepository : IMechanicRepository
                 Message = "کد وارد شده درست نیست"
             });
 
-        var token = _jwtRepository.generateUserJwt(new JwtModel { Id = mechanic.Id.ToString(), Role = "mechanic" });
+        var token = _jwtRepository.GenerateUserJwt(new JwtModel { Id = mechanic.Id.ToString(), Role = "mechanic" });
         return new ActionResult(new Result { StatusCode = 200, Message = "کد وارد شده درست است", Token = token });
     }
 }

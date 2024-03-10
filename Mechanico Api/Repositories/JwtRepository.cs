@@ -16,7 +16,7 @@ public class JwtRepository : IJwtRepository
         _config = config;
     }
 
-    public string generateUserJwt(JwtModel jwtModel)
+    public string GenerateUserJwt(JwtModel jwtModel)
     {
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

@@ -46,7 +46,7 @@ public class UserRepository : IUserRepository
                 Message = "کد وارد شده درست نیست"
             });
 
-        var token = _jwtRepository.generateUserJwt(new JwtModel { Id = user.Id.ToString() });
+        var token = _jwtRepository.GenerateUserJwt(new JwtModel { Id = user.Id.ToString() });
         return new ActionResult(new Result { StatusCode = 200, Message = "کد وارد شده درست است", Token = token });
     }
 

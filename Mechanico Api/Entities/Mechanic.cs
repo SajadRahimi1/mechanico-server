@@ -10,9 +10,6 @@ public class Mechanic:BaseEntity
     public string? StoreName { get; set; }
     public string? PhoneNumber { get; set; }
     public string? CallNumber { get; set; }
-    
-    [JsonIgnore]
-    public string? Password { get; set; }
     public string? City { get; set; }
     public string? Street { get; set; }
     public string? Description { get; set; }

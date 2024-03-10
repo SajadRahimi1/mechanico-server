@@ -10,6 +10,6 @@ public class PhoneNumberValidation:ValidationAttribute
         var regex = new Regex("^09[0-9]{9}$");
         var isValidNumber= regex.IsMatch(value?.ToString() ?? "");
 
-        return isValidNumber ? ValidationResult.Success : new ValidationResult("phoneNumber must start with '09' with 11 digits ");
+        return isValidNumber ? ValidationResult.Success : new ValidationResult("شماره تلفن باید با 09 شروع شود و 11 رقم باشد");
     }
 }

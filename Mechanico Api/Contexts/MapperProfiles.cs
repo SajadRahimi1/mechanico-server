@@ -9,5 +9,6 @@ public class MapperProfiles:Profile
     public MapperProfiles()
     {
         CreateMap<UpdateUserDto, User>();
+        CreateMap<UpdateMechanicDto, Mechanic>();
     }
 }
