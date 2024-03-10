@@ -73,4 +73,11 @@ public class UserController : ControllerBase
     {
         return await _userRepository.GetUserVisited(AuthorizeUser()?.Id??"");
     }
+    
+    [HttpGet, Authorize(Roles = "User")]
+    [Route("comments")]
+    public async Task<Contexts.ActionResult> GetUserComments()
+    {
+        return await _userRepository.GetUserCommented(AuthorizeUser()?.Id??"");
+    }
 }
