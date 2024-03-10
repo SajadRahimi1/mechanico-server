@@ -3,6 +3,7 @@ using Mechanico_Api.Entities;
 using Mechanico_Api.Interfaces;
 using Mechanico_Api.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using ActionResult = Mechanico_Api.Contexts.ActionResult;
 
 namespace Mechanico_Api.Repositories;
@@ -84,6 +85,8 @@ public class UserRepository : IUserRepository
 
     public async Task<ActionResult> GetUserVisited(string userId)
     {
+        if (userId.IsNullOrEmpty())
+            return new ActionResult(new Result { StatusCode = 401, Message = "توکن صحیح نیست" });
         var user = await _appDbContext.Users.Include(u => u.Visiteds)
             .SingleOrDefaultAsync(u => u.Id.ToString() == userId);
         return new ActionResult(new Result { Data = user });
@@ -91,6 +94,8 @@ public class UserRepository : IUserRepository
 
     public async Task<ActionResult> GetUserCommented(string userId)
     {
+        if (userId.IsNullOrEmpty())
+            return new ActionResult(new Result { StatusCode = 401, Message = "توکن صحیح نیست" });
         var user = await _appDbContext.Users.Include(u => u.Comments)
             .SingleOrDefaultAsync(u => u.Id.ToString() == userId);
         return new ActionResult(new Result { Data = user });

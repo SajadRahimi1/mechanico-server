@@ -67,4 +67,11 @@ public class UserController : ControllerBase
         user = await _userRepository.UpdateUser(user);
         return new Contexts.ActionResult(new Result { Data = user });
     }
+
+    [HttpGet, Authorize(Roles = "User")]
+    [Route("visited")]
+    public async Task<Contexts.ActionResult> GetUserVisited()
+    {
+        return await _userRepository.GetUserVisited(AuthorizeUser()?.Id??"");
+    }
 }
