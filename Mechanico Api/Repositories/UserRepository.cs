@@ -70,12 +70,7 @@ public class UserRepository : IUserRepository
             return null;
         }
         _appDbContext.ChangeTracker.Clear();
-        _appDbContext.Entry(selectUser).State = EntityState.Detached;
-
-        // Update only the non-null properties of the user entity
-        _appDbContext.Entry(selectUser).CurrentValues.SetValues(user);
-        
-        _appDbContext.Entry(selectUser).State = EntityState.Modified;
+        _appDbContext.Users.Update(user);
 
 
         // Save changes to the database

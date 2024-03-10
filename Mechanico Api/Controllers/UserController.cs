@@ -6,7 +6,6 @@ using Mechanico_Api.Dtos;
 using Mechanico_Api.Entities;
 using Mechanico_Api.Interfaces;
 using Mechanico_Api.Models;
-using Mechanico_Api.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

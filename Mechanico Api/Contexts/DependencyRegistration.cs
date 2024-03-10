@@ -25,6 +25,7 @@ public abstract class DependencyRegistration
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IJwtRepository, JwtRepository>();
         builder.Services.AddScoped<IFileRepository, FileRepository>();
+        builder.Services.AddScoped<IMechanicRepository, MechanicRepository>();
         
         builder.Services.AddScoped<ISmsCodeRepository, SmsCodeRepository>();
 
