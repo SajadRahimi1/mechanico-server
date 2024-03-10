@@ -18,6 +18,10 @@ public class AppDbContext:DbContext
         modelBuilder.Entity<Entities.Category>().HasKey(_ => _.Id);
         modelBuilder.Entity<Entities.Comment>().HasKey(_ => _.Id);
         modelBuilder.Entity<Entities.SmsCode>().HasKey(_ => _.Id);
+        modelBuilder.Entity<Entities.Address>().HasKey(_ => _.Id);
+
+        modelBuilder.Entity<Entities.Address>().HasOne<Mechanic>(a => a.Mechanic).WithOne(m => m.Address)
+            .HasForeignKey<Address>(a => a.MechanicId);
 
         modelBuilder.Entity<Entities.Comment>().HasOne<User>(c => c.User).WithMany(u => u.Comments)
             .HasForeignKey(c => c.UserId);
@@ -55,5 +59,6 @@ public class AppDbContext:DbContext
     public virtual  DbSet<Comment> Comments { get;set; }
     public virtual  DbSet<Visited> Visiteds { get;set; }
     public virtual  DbSet<Category> Categories { get;set; }
+    public virtual DbSet<Address> Addresses { get; set; }
     public virtual  DbSet<SmsCode> SmsCodes { get;set; }
 }

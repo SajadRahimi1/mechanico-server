@@ -32,10 +32,6 @@ public class JwtRepository : IJwtRepository
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 
-    public JwtModel authorize()
-    {
-        throw new NotImplementedException();
-    }
     
     public JwtModel Authorize(ClaimsIdentity claimsIdentity)
     {

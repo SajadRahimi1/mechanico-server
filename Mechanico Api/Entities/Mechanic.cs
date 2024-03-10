@@ -9,9 +9,7 @@ public class Mechanic:BaseEntity
     public string? CallNumber { get; set; }
     public string? City { get; set; }
     public string? Password { get; set; }
-    public double? Latitude { get; set; }
-    public double? Longitude { get; set; }
-    //TODO: Assign Address
+    public Address Address { get; set; } = new();
     public List<Comment> Comments { get; set; } = new();
     public List<Category> Categories { get; set; } = new();
     public List<Visited> Visiteds { get; set; } = new();
