@@ -1,9 +1,10 @@
 using System.Text.Json.Serialization;
 
 namespace Mechanico_Api.Entities;
+
 // TODO: create status prop and description for status
 // TODO: create prop for store license image 
-public class Mechanic:BaseEntity
+public class Mechanic : BaseEntity
 {
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
@@ -15,7 +16,19 @@ public class Mechanic:BaseEntity
     public string? Description { get; set; }
     public double? Latitude { get; set; }
     public double? Longitude { get; set; }
+
+    public MechanicStatus Status { get; set; } = MechanicStatus.Validating;
+    public string? RejectedReason { get; set; }
+
+    public string? LicenseImage { get; set; }
     public List<Comment> Comments { get; set; } = new();
     public List<Category> Categories { get; set; } = new();
     public List<Visited> Visiteds { get; set; } = new();
+}
+
+public enum MechanicStatus
+{
+    Accepted,
+    Rejected,
+    Validating
 }
