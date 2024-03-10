@@ -47,11 +47,26 @@ public class MechanicController:ControllerBase
     public async Task<ActionResult> ValidateSmsCode([FromBody] ValidateCodeDto validateCodeDto) =>
         await _mechanicRepository.CheckCode(validateCodeDto.phoneNumber, validateCodeDto.code);
    
+    
     [HttpPost, Route("update"),Authorize(Roles = "mechanic")]
     public async Task<ActionResult> UpdateMechanic([FromBody] UpdateMechanicDto updateMechanicDto)
     {
         var mechanic = _mapper.Map<Mechanic>(updateMechanicDto);
         mechanic.Id=Guid.Parse(AuthorizeMechanic()?.Id);
         return await _mechanicRepository.UpdateMechanic(mechanic);
+    }
+    
+    [HttpGet, Authorize(Roles = "mechanic")]
+    [Route("visited")]
+    public async Task<Contexts.ActionResult> GetUserVisited()
+    {
+        return await _mechanicRepository.GetUserVisited(AuthorizeMechanic()?.Id??"");
+    }
+    
+    [HttpGet, Authorize(Roles = "mechanic")]
+    [Route("comments")]
+    public async Task<Contexts.ActionResult> GetUserCommented()
+    {
+        return await _mechanicRepository.GetUserCommented(AuthorizeMechanic()?.Id??"");
     }
 }

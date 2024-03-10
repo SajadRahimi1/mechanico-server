@@ -3,6 +3,7 @@ using Mechanico_Api.Entities;
 using Mechanico_Api.Interfaces;
 using Mechanico_Api.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Mechanico_Api.Repositories;
 
@@ -22,7 +23,8 @@ public class MechanicRepository : IMechanicRepository
 
     public async Task<ActionResult> GetMechanic(Guid mechanicId)
     {
-        var mechanic = await GetMechanicById(mechanicId);
+        var mechanic = await _appDbContext.Mechanics.Include(m => m.Comments).Include(m => m.Categories)
+            .SingleOrDefaultAsync(m => m.Id == mechanicId);
         return mechanic is null
             ? new ActionResult(new Result { StatusCode = 404, Message = "مکانک یافت نشد" })
             : new ActionResult(new Result { Data = mechanic });
@@ -52,7 +54,7 @@ public class MechanicRepository : IMechanicRepository
 
     public async Task<ActionResult> GetMechanicByCity(string city)
     {
-        var mechanics = await _appDbContext.Mechanics.Where(m => m.City == city)
+        var mechanics = await _appDbContext.Mechanics.Where(m => m.City == city && m.Status == MechanicStatus.Accepted)
             .ToListAsync();
         return new ActionResult(new Result { Data = mechanics });
     }
@@ -81,7 +83,7 @@ public class MechanicRepository : IMechanicRepository
         if (oldMechanic is null)
             return new ActionResult(new Result { StatusCode = 401, Message = "توکن شما اشتباه است" });
         mechanic.PhoneNumber = oldMechanic.PhoneNumber;
-        
+
         var updatedMechanic = _appDbContext.Mechanics.Update(mechanic);
         await _appDbContext.SaveChangesAsync();
         return new ActionResult(new Result { Data = updatedMechanic.Entity });
@@ -102,5 +104,24 @@ public class MechanicRepository : IMechanicRepository
 
         var token = _jwtRepository.GenerateUserJwt(new JwtModel { Id = mechanic.Id.ToString(), Role = "mechanic" });
         return new ActionResult(new Result { StatusCode = 200, Message = "کد وارد شده درست است", Token = token });
+    }
+
+    public async Task<ActionResult> GetUserVisited(string mechanicId)
+    {
+        if (mechanicId.IsNullOrEmpty())
+            return new ActionResult(new Result { StatusCode = 401, Message = "توکن صحیح نیست" });
+        var mechanic = await _appDbContext.Mechanics.Include(m => m.Visiteds)
+            .SingleOrDefaultAsync(u => u.Id.ToString() == mechanicId);
+        return new ActionResult(new Result { Data = mechanic });
+    }
+
+    public async Task<ActionResult> GetUserCommented(string mechanicId)
+    {
+        if (mechanicId.IsNullOrEmpty())
+            return new ActionResult(new Result { StatusCode = 401, Message = "توکن صحیح نیست" });
+        var mechanic = await _appDbContext.Mechanics.Include(m => m.Comments)
+            .SingleOrDefaultAsync(u => u.Id.ToString() == mechanicId);
+        mechanic.Comments= mechanic.Comments.Where(c => c.CommentStatus == CommentStatus.Accepted).ToList();
+        return new ActionResult(new Result { Data = mechanic });
     }
 }

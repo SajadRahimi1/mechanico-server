@@ -12,4 +12,8 @@ public interface IMechanicRepository
     public Task<ActionResult> CheckCode(string phoneNumber, string code);
     public Task<ActionResult> SendCode(string phoneNumber);
     public Task<ActionResult> UpdateMechanic(Mechanic mechanic);
+    
+    public Task<ActionResult> GetUserVisited(string mechanicId);
+    
+    public Task<ActionResult> GetUserCommented(string mechanicId);
 }
