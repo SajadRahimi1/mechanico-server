@@ -69,4 +69,12 @@ public class MechanicController:ControllerBase
     {
         return await _mechanicRepository.GetUserCommented(AuthorizeMechanic()?.Id??"");
     }
+
+    [HttpPut, Authorize(Roles = "mechanic")]
+    [Route("update-license"), Consumes("multipart/form-data")]
+    public async Task<Contexts.ActionResult> UpdateLicenseImage(LicenseImageDto licenseImageDto)
+    {
+        var jwtModel = AuthorizeMechanic();
+        return await _mechanicRepository.UpdateLicenseImage(licenseImageDto,jwtModel?.Id);
+    }
 }

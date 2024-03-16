@@ -1,4 +1,6 @@
+using Courseproject.Common.Interfaces;
 using Mechanico_Api.Contexts;
+using Mechanico_Api.Dtos;
 using Mechanico_Api.Entities;
 using Mechanico_Api.Interfaces;
 using Mechanico_Api.Models;
@@ -12,15 +14,16 @@ public class MechanicRepository : IMechanicRepository
     private readonly AppDbContext _appDbContext;
     private readonly ISmsCodeRepository _smsCodeRepository;
     private readonly IJwtRepository _jwtRepository;
+    private readonly IFileRepository _fileRepository;
 
-    public MechanicRepository(AppDbContext appDbContext, ISmsCodeRepository smsCodeRepository,
-        IJwtRepository jwtRepository)
+    public MechanicRepository(AppDbContext appDbContext, ISmsCodeRepository smsCodeRepository, IJwtRepository jwtRepository, IFileRepository fileRepository)
     {
         _appDbContext = appDbContext;
         _smsCodeRepository = smsCodeRepository;
         _jwtRepository = jwtRepository;
+        _fileRepository = fileRepository;
     }
-
+    
     public async Task<ActionResult> GetMechanic(Guid mechanicId)
     {
         var mechanic = await _appDbContext.Mechanics.Include(m => m.Comments).Include(m => m.Categories)
@@ -122,6 +125,21 @@ public class MechanicRepository : IMechanicRepository
         var mechanic = await _appDbContext.Mechanics.Include(m => m.Comments)
             .SingleOrDefaultAsync(u => u.Id.ToString() == mechanicId);
         mechanic.Comments= mechanic.Comments.Where(c => c.CommentStatus == CommentStatus.Accepted).ToList();
+        return new ActionResult(new Result { Data = mechanic });
+    }
+
+    public async Task<ActionResult> UpdateLicenseImage(LicenseImageDto licenseImageDto, string mechanicId)
+    {
+        var mechanic = await GetMechanicById(Guid.Parse(mechanicId));
+        if (mechanic is null)
+        {
+            return new ActionResult(new Result { StatusCode = 404 });
+        }
+
+        mechanic.LicenseImage = await _fileRepository.SaveFileAsync(licenseImageDto.LicenseImage);
+        mechanic = _appDbContext.Mechanics.Update(mechanic).Entity;
+        await _appDbContext.SaveChangesAsync();
+
         return new ActionResult(new Result { Data = mechanic });
     }
 }
